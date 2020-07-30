@@ -1,0 +1,6 @@
+
+config ttyd
+	option command '/usr/libexec/login.sh'
+	option url_arg '1'
+	option interface '@wan'
+
