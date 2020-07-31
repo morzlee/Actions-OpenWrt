@@ -137,6 +137,8 @@ jobs:
         fi
         make defconfig
         [ $(grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/') == generic ] && DEVICE_NAME=$(grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/CONFIG_TARGET_(.*)_DEVICE_.*=y/\1/') || DEVICE_NAME=$(grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/')
+        echo "s/xiaomi_redmi-router/redmi/" 
+        DEVICE_NAME=`echo ${DEVICE_NAME/xiaomi_redmi-router/redmi}`
         echo "::set-env name=DEVICE_NAME::$DEVICE_NAME"
         
     - name: Default PPPOE Setting
@@ -191,8 +193,13 @@ jobs:
         RANDOM=$$$(date +%s)
         rand=$[$RANDOM % ${#Emoji[@]}]
         echo "::set-env name=EMOJI::${Emoji[$rand]}"
-        [ ${{matrix.target}} == "k2p" ] && echo "::set-env name=NOTICE::刷机时breed里的闪存布局请选择斐讯而非默认的公版"
-        [ ${{matrix.target}} == "x86_64" ] && echo "::set-env name=NOTICE::请分配不少于800M的存储容量"
+        if [ ${{matrix.target}} == "k2p" ]; then
+        echo "::set-env name=NOTICE::刷机时breed里的闪存布局请选择斐讯而非默认的公版"
+        elif [ ${{matrix.target}} == "x86_64" ]; then
+        echo "::set-env name=NOTICE::请分配不少于800M的存储容量"
+        else
+        echo "::set-env name=NOTICE::"
+        fi
  
     - name: Upload firmware to cowtransfer
       if: env.UPLOAD_FIRMWARE_TO_COWTRANSFER == 'true'
