@@ -14,7 +14,7 @@ config interface 'lan'
 	option ipaddr '10.0.0.1'
 	option ifname 'eth0 eth2 eth3 eth4'
 	option netmask '255.0.0.0'
-	option ip6assign '64'
+	option ip6assign '60'
 
 config interface 'wan'
 	option ifname 'eth1'
