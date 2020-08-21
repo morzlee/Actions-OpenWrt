@@ -16,7 +16,8 @@ git clone https://github.com/brvphoenix/luci-app-wrtbwmon
 git clone https://github.com/brvphoenix/wrtbwmon
 git clone https://github.com/destan19/OpenAppFilter && mv -f OpenAppFilter/* ./
 svn co https://github.com/kenzok8/openwrt-packages/trunk/luci-app-advancedsetting
-git clone https://github.com/lisaac/luci-app-dockerman
+svn co https://github.com/lisaac/luci-app-dockerman/trunk/applications/luci-app-dockerman
+git clone https://github.com/lisaac/luci-in-docker
 svn co https://github.com/openwrt/luci/trunk/applications/luci-app-sqm
 git clone https://github.com/garypang13/r8125
 git clone https://github.com/ElonH/Rclone-OpenWrt && mv -f Rclone-OpenWrt/* ./
@@ -31,13 +32,11 @@ git clone https://github.com/jerrykuku/node-request.git
 git clone https://github.com/jerrykuku/luci-app-jd-dailybonus
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/redsocks2
 
-svn co https://github.com/vernesong/OpenClash/branches/master/luci-app-openclash
+svn export https://github.com/vernesong/OpenClash/branches/master/luci-app-openclash
 git clone https://github.com/frainzy1477/luci-app-clash
 svn co https://github.com/solidus1983/luci-theme-opentomato/trunk/luci/themes/luci-theme-opentomato
 svn co https://github.com/xiaorouji/openwrt-package/trunk/others/luci-app-syncthing
 svn co https://github.com/xiaorouji/openwrt-package/trunk/others/luci-app-control-timewol
-svn co https://github.com/dogbutcat/openwrt-packages/trunk/openwrt-udp2raw
-svn co https://github.com/dogbutcat/openwrt-packages/trunk/speederv2
 
 git clone https://github.com/garypang13/openwrt-adguardhome
 git clone https://github.com/garypang13/luci-app-eqos
@@ -63,8 +62,10 @@ rm -rf feeds/custom/luci/.svn
 echo -e "\q" | svn co https://github.com/xiaorouji/openwrt-package/trunk/package feeds/custom/luci
 rm -rf feeds/custom/luci/.svn
 echo -e "\q" | svn co https://github.com/project-openwrt/openwrt/branches/master/package/ctcgfw feeds/custom/luci
+rm -rf feeds/custom/luci/.svn
+svn export --force https://github.com/project-openwrt/openwrt/branches/master/package/ntlf9t feeds/custom/luci
 
-rm -Rf feeds/custom/luci/openwrt-chinadns-ng feeds/custom/luci/openwrt-simple-obfs feeds/custom/luci/openwrt-v2ray-plugin
+rm -Rf feeds/custom/luci/openwrt-chinadns-ng feeds/custom/luci/openwrt-simple-obfs feeds/custom/luci/openwrt-v2ray-plugin feeds/custom/luci/luci-app-cifs
 rm -Rf tools/upx && svn co https://github.com/coolsnowwolf/lede/trunk/tools/upx tools/upx
 rm -Rf tools/ucl && svn co https://github.com/coolsnowwolf/lede/trunk/tools/ucl tools/ucl
 rm -Rf feeds/packages/lang/python/Flask-RESTful && svn co https://github.com/project-openwrt/packages/trunk/lang/python/Flask-RESTful feeds/packages/lang/python/Flask-RESTful
@@ -74,6 +75,7 @@ rm -Rf package/*/*/rtl8821cu package/*/*/rtl88x2bu
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/feeds/custom/*/Makefile
 sed -i 's/-std=\(gnu\|c\)++\(11\|14\)//g' package/feeds/*/*/Makefile
 echo -e "\q" | svn co https://github.com/coolsnowwolf/lede/trunk/target/linux/generic/hack-5.4 target/linux/generic/hack-5.4
+rm -Rf target/linux/generic/hack-5.4/641-sch_cake-fix-IP-protocol-handling-in-the-presence-of.patch
 rm -Rf package/*/*/qBittorrent/patches
 rm -Rf package/*/*/luci-app-zerotier/root/etc/init.d/zerotier
 rm -Rf files/usr/share/aria2 && git clone https://github.com/P3TERX/aria2.conf files/usr/share/aria2
