@@ -136,17 +136,16 @@ jobs:
         fi
         if [ -n "$(ls -A "common/patches" 2>/dev/null)" ]; then
         (
-          find "common/patches" -type f -name '*.patch'| xargs -i git apply {} || true
+          find "common/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p0 --forward" || true
         )
         fi
         if [ -n "$(ls -A "${{matrix.target}}/patches" 2>/dev/null)" ]; then
         (
-          find "${{matrix.target}}/patches" -type f -name '*.patch'| xargs -i git apply {} || true
+          find "${{matrix.target}}/patches" -type f -name '*.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "cat '%'  | patch -d './' -p0 --forward" || true
         )
         fi
         make defconfig
         [ $(grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/') == generic ] && DEVICE_NAME=$(grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/CONFIG_TARGET_(.*)_DEVICE_.*=y/\1/') || DEVICE_NAME=$(grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/')
-        echo "s/xiaomi_redmi-router/redmi/" 
         DEVICE_NAME=`echo ${DEVICE_NAME/xiaomi_redmi-router/redmi}`
         echo "::set-env name=DEVICE_NAME::$DEVICE_NAME"
         

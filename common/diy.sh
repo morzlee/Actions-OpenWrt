@@ -47,6 +47,7 @@ git clone https://github.com/garypang13/openwrt-filerun
 git clone https://github.com/garypang13/luci-app-baidupcs-web
 svn co https://github.com/openwrt/packages/branches/openwrt-19.07/libs/libdouble-conversion
 svn co https://github.com/openwrt/openwrt/branches/openwrt-19.07/package/network/services/samba36
+svn co https://github.com/openwrt/packages/branches/openwrt-19.07/net/e2guardian
 cd -
 
 mv -f feeds/packages/libs/libx264 feeds/custom/luci/libx264
@@ -70,19 +71,20 @@ rm -Rf feeds/custom/luci/openwrt-chinadns-ng feeds/custom/luci/openwrt-simple-ob
 rm -Rf tools/upx && svn co https://github.com/coolsnowwolf/lede/trunk/tools/upx tools/upx
 rm -Rf tools/ucl && svn co https://github.com/coolsnowwolf/lede/trunk/tools/ucl tools/ucl
 rm -Rf feeds/packages/lang/python/Flask-RESTful && svn co https://github.com/project-openwrt/packages/trunk/lang/python/Flask-RESTful feeds/packages/lang/python/Flask-RESTful
+rm -Rf feeds/packages/lang/python/python-psutil && svn co https://github.com/project-openwrt/packages/trunk/lang/python/python-psutil feeds/packages/lang/python/python-psutil
 sed -i 's?zip zstd$?zip zstd ucl upx\n$(curdir)/upx/compile := $(curdir)/ucl/compile?g' tools/Makefile
 ./scripts/feeds update -a && ./scripts/feeds install -a
 sed -i 's/..\/..\/luci.mk/$(TOPDIR)\/feeds\/luci\/luci.mk/g' package/feeds/custom/*/Makefile
 sed -i 's/-std=\(gnu\|c\)++\(11\|14\)//g' package/feeds/*/*/Makefile
 echo -e "\q" | svn co https://github.com/coolsnowwolf/lede/trunk/target/linux/generic/hack-5.4 target/linux/generic/hack-5.4
 rm -Rf target/linux/generic/hack-5.4/641-sch_cake-fix-IP-protocol-handling-in-the-presence-of.patch
+echo -e "\q" | svn co https://github.com/project-openwrt/openwrt/branches/master/package/network/utils/iptables/patches package/network/utils/iptables/patches
 rm -Rf package/*/*/qBittorrent/patches
 rm -Rf package/*/*/luci-app-zerotier/root/etc/init.d/zerotier
 rm -Rf files/usr/share/aria2 && git clone https://github.com/P3TERX/aria2.conf files/usr/share/aria2
 chmod +x files/usr/share/aria2/*.sh
 rm -Rf package/*/*/antileech/src/* && git clone https://github.com/persmule/amule-dlp.antiLeech feeds/custom/luci/antileech/src
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/default-settings/i18n feeds/custom/luci/default-settings/po/zh_Hans
-sed -i "s/+ca-bundle$/+ca-bundle +libzstd/g"  package/network/utils/curl/Makefile
 sed -i '/rpcd_/d' package/*/*/autocore/Makefile
 sed -i "s/'class': 'table'/'class': 'table memory'/g" package/*/*/luci-mod-status/htdocs/luci-static/resources/view/status/include/20_memory.js
 sed -i 's/\[ -e "$FILE" \] && . "$FILE"/[ -e "$FILE" ] \&\& \[ -f "\/bin\/bash" \] \&\& env -i bash "$FILE" || . "$FILE"/g' package/base-files/files/etc/profile
@@ -104,7 +106,7 @@ sed -i '$a /etc/amule' package/base-files/files/lib/upgrade/keep.d/base-files-es
 sed -i '$a /www/speedtest/results/telemetry_settings.php' package/base-files/files/lib/upgrade/keep.d/base-files-essential
 sed -i '$a /etc/php7/custom.ini' package/base-files/files/lib/upgrade/keep.d/base-files-essential
 # find target/linux/x86 -name "config*" -exec bash -c 'cat kernel.conf >> "{}"' \;
-sed -i '$a CONFIG_ACPI=y\nCONFIG_X86_ACPI_CPUFREQ=y\nCONFIG_CPU_FREQ_GOV_CONSERVATIVE=y\nCONFIG_CPU_FREQ_GOV_POWERSAVE=y\nCONFIG_CPU_FREQ_GOV_USERSPACE=y' target/linux/*/config-*
+sed -i '$a CONFIG_ACPI=y\nCONFIG_X86_ACPI_CPUFREQ=y\nCONFIG_CPU_FREQ_GOV_CONSERVATIVE=y\nCONFIG_CPU_FREQ_GOV_POWERSAVE=y\nCONFIG_CPU_FREQ_GOV_USERSPACE=y\nCONFIG_NR_CPUS=128' target/linux/*/config-*
 sed -i '/continue$/d' package/*/*/luci-app-ssr-plus/root/usr/bin/ssr-switch
 sed -i 's/if test_proxy/sleep 3600\nif test_proxy/g' package/*/*/luci-app-ssr-plus/root/usr/bin/ssr-switch
 sed -i 's/ uci.cursor/ luci.model.uci.cursor/g' package/*/*/luci-app-ssr-plus/root/usr/share/shadowsocksr/subscribe.lua
