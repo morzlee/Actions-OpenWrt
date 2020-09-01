@@ -1,26 +1,28 @@
 
 config defaults
+	option syn_flood '1'
 	option input 'ACCEPT'
 	option output 'ACCEPT'
+	option forward 'REJECT'
+	option flow_offloading '1'
+	option flow_offloading_hw '1'
 	option fullcone '1'
-	option synflood_protect '1'
-	option forward 'ACCEPT'
 
 config zone
 	option name 'lan'
-	list network 'lan'
 	option input 'ACCEPT'
 	option output 'ACCEPT'
 	option forward 'ACCEPT'
+	option network 'lan'
 
 config zone
 	option name 'wan'
+	option input 'REJECT'
 	option output 'ACCEPT'
+	option forward 'REJECT'
 	option masq '1'
 	option mtu_fix '1'
-	option input 'ACCEPT'
-	option forward 'ACCEPT'
-	option network 'wan wan6 wan2 wan3 wan4 wan5 wan7 wan8'
+	option network 'wan wan4 wan3 wan2 wan5 wan6 wan7 wan8 wan10 wan9 wan11 wan12 wan13 wan14 wan15 wan16'
 
 config forwarding
 	option src 'lan'
@@ -139,243 +141,48 @@ config include 'miniupnpd'
 	option family 'any'
 	option reload '1'
 
-config include 'shadowsocksr'
-	option type 'script'
-	option path '/var/etc/shadowsocksr.include'
-	option reload '1'
-
 config redirect
-	option dest_port '8999'
+	option target 'DNAT'
+	option name '1111'
 	option src 'wan'
-	option name '8999'
 	option src_dport '8999'
-	option target 'DNAT'
+	option dest 'lan'
 	option dest_ip '10.0.0.1'
-	option dest 'lan'
+	option dest_port '80'
 
 config redirect
-	option dest_port '5000'
-	option src 'wan'
-	option name '9999'
-	option src_dport '9999'
 	option target 'DNAT'
-	option dest_ip '10.0.0.228'
+	option name '123123'
+	option src 'wan'
+	option src_dport '22222'
 	option dest 'lan'
-
-config redirect
-	option dest_port '5001'
-	option src 'wan'
-	option name '10000'
-	option src_dport '10000'
-	option target 'DNAT'
-	option dest_ip '10.0.0.228'
-	option dest 'lan'
-
-config redirect
-	option dest_port '22'
-	option src 'wan'
-	option name 'dd'
-	option src_dport '12345'
-	option target 'DNAT'
-	option dest_ip '10.0.0.228'
-	option dest 'lan'
-
-config redirect
-	option dest_port '22'
-	option src 'wan'
-	option name '2333'
-	option src_dport '2333'
-	option target 'DNAT'
 	option dest_ip '10.0.0.1'
-	option dest 'lan'
+	option dest_port '22'
 
 config redirect
-	option src 'wan'
-	option name '9999'
-	option src_dport '9999'
 	option target 'DNAT'
-	option dest_ip '10.0.0.229'
+	option name '1'
+	option src 'wan'
+	option src_dport '10001'
 	option dest 'lan'
-	option dest_port '5000'
-
-config redirect
-	option dest_port '50000'
-	option src 'wan'
-	option name '50000'
-	option src_dport '50000'
-	option target 'DNAT'
 	option dest_ip '10.0.0.228'
-	option dest 'lan'
-
-config redirect
-	option dest_port '51000'
-	option src 'wan'
-	option name '51000'
-	option src_dport '51000'
-	option target 'DNAT'
-	option dest_ip '10.0.0.228'
-	option dest 'lan'
-
-config redirect
-	option dest_port '44444'
-	option src 'wan'
-	option name '44444'
-	option src_dport '44444'
-	option target 'DNAT'
-	option dest_ip '10.0.0.228'
-	option dest 'lan'
-
-config redirect
 	option dest_port '3389'
-	option src 'wan'
-	option name '3389'
-	option target 'DNAT'
-	option dest_ip '10.0.0.140'
-	option dest 'lan'
-	option src_dport '2333'
 
 config redirect
-	option src 'wan'
-	option name '51314'
 	option target 'DNAT'
-	option dest_ip '10.0.0.228'
+	option name '10002'
+	option src 'wan'
+	option src_dport '10002'
 	option dest 'lan'
-	option dest_port '51413'
-	option src_dport '51413'
+	option dest_ip '10.0.0.187'
+	option dest_port '3389'
 
 config redirect
-	option dest_port '9091'
-	option src 'wan'
-	option name '9091'
-	option src_dport '9091'
 	option target 'DNAT'
-	option dest_ip '10.0.0.228'
-	option dest 'lan'
-
-config redirect
-	option dest_port '8989'
+	option name '10003'
 	option src 'wan'
-	option name '8989'
-	option src_dport '8989'
-	option target 'DNAT'
-	option dest_ip '10.0.0.228'
+	option src_dport '10003'
 	option dest 'lan'
-
-config redirect
-	option dest_port '9000'
-	option src 'wan'
-	option name '9000'
-	option src_dport '9000'
-	option target 'DNAT'
-	option dest_ip '10.0.0.228'
-	option dest 'lan'
-
-config redirect
-	option dest_port '3539'
-	option src 'wan'
-	option name '3539'
-	option src_dport '3539'
-	option target 'DNAT'
-	option dest_ip '10.0.0.228'
-	option dest 'lan'
-
-config redirect
-	option dest_port '7091'
-	option src 'wan'
-	option name '7091'
-	option src_dport '7091'
-	option target 'DNAT'
-	option dest_ip '10.0.0.1'
-	option dest 'lan'
-
-config redirect
-	option dest_port '7090'
-	option src 'wan'
-	option name '7090'
-	option src_dport '7090'
-	option target 'DNAT'
-	option dest_ip '10.0.0.1'
-	option dest 'lan'
-
-config redirect
-	option dest_port '22'
-	option src 'wan'
-	option name 'Debian'
-	option src_dport '23456'
-	option target 'DNAT'
-	option dest_ip '10.0.0.240'
-	option dest 'lan'
-
-config redirect
-	option dest_port '8899'
-	option src 'wan'
-	option name '8899'
-	option src_dport '8899'
-	option target 'DNAT'
-	option dest_ip '10.0.0.1'
-	option dest 'lan'
-
-config redirect
-	option dest_port '7890'
-	option src 'wan'
-	option name '7890'
-	option src_dport '7890'
-	option target 'DNAT'
-	option dest_ip '10.0.0.1'
-	option dest 'lan'
-
-config redirect
-	option dest_port '7891'
-	option src 'wan'
-	option name '7891'
-	option src_dport '7891'
-	option target 'DNAT'
-	option dest_ip '10.0.0.1'
-	option dest 'lan'
-
-config redirect
-	option src 'wan'
-	option target 'DNAT'
-	option dest 'lan'
-	option dest_port '10443'
-	option name '10443'
-	option src_dport '10443'
-	option dest_ip '10.0.0.228'
-
-config include 'vssr'
-	option type 'script'
-	option path '/var/etc/vssr.include'
-	option reload '1'
-
-config redirect
-	option dest_port '2398'
-	option src 'wan'
-	option name '2398'
-	option src_dport '2398'
-	option target 'DNAT'
-	option dest_ip '10.0.0.228'
-	option dest 'lan'
-
-config redirect
-	option dest_port '27015'
-	option src 'wan'
-	option name 'l4d2'
-	option src_dport '27015'
-	option target 'DNAT'
-	option dest_ip '10.0.0.240'
-	option dest 'lan'
-
-config redirect
-	option dest_port '55555'
-	option src 'wan'
-	option name '55555'
-	option src_dport '55555'
-	option target 'DNAT'
-	option dest_ip '10.0.0.240'
-	option dest 'lan'
-
-config include 'openclash'
-	option type 'script'
-	option path '/var/etc/openclash.include'
-	option reload '1'
+	option dest_ip '10.0.0.115'
+	option dest_port '3389'
 
