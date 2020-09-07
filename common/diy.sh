@@ -33,8 +33,6 @@ git clone https://github.com/jerrykuku/luci-app-jd-dailybonus
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/redsocks2
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-frpc
 svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-frps
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/luci-app-verysync
-svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/verysync
 svn co https://github.com/coolsnowwolf/lede/trunk/package/network/services/shellsync
 
 svn export https://github.com/vernesong/OpenClash/branches/master/luci-app-openclash
@@ -42,6 +40,7 @@ git clone https://github.com/frainzy1477/luci-app-clash
 svn co https://github.com/solidus1983/luci-theme-opentomato/trunk/luci/themes/luci-theme-opentomato
 svn co https://github.com/xiaorouji/openwrt-package/trunk/others/luci-app-syncthing
 svn co https://github.com/xiaorouji/openwrt-package/trunk/others/luci-app-control-timewol
+svn co https://github.com/Lienol/openwrt/trunk/package/diy/luci-app-adguardhome
 
 git clone https://github.com/garypang13/openwrt-adguardhome
 git clone https://github.com/garypang13/luci-app-eqos
@@ -60,17 +59,20 @@ mv -f feeds/packages/admin/netdata feeds/custom/luci/netdata
 mv -f feeds/packages/net/smartdns feeds/custom/luci/smartdns
 rm -Rf feeds/packages/net/miniupnpd
 
-echo -e "\q" | svn co https://github.com/xiaorouji/openwrt-package/trunk/lienol feeds/custom/luci
-rm -rf feeds/custom/luci/.svn
-echo -e "\q" | svn co https://github.com/Lienol/openwrt/trunk/package/diy feeds/custom/luci
-rm -rf feeds/custom/luci/.svn
 echo -e "\q" | svn co https://github.com/project-openwrt/openwrt/branches/master/package/lean feeds/custom/luci
-rm -rf feeds/custom/luci/.svn
-echo -e "\q" | svn co https://github.com/xiaorouji/openwrt-package/trunk/package feeds/custom/luci
 rm -rf feeds/custom/luci/.svn
 echo -e "\q" | svn co https://github.com/project-openwrt/openwrt/branches/master/package/ctcgfw feeds/custom/luci
 rm -rf feeds/custom/luci/.svn
 svn export --force https://github.com/project-openwrt/openwrt/branches/master/package/ntlf9t feeds/custom/luci
+rm -rf feeds/custom/luci/.svn
+echo -e "\q" | svn co https://github.com/project-openwrt/openwrt/branches/master/package/zxlhhyccc feeds/custom/luci
+rm -rf feeds/custom/luci/.svn
+echo -e "\q" | svn co https://github.com/xiaorouji/openwrt-package/trunk/lienol feeds/custom/luci
+rm -rf feeds/custom/luci/.svn
+echo -e "\q" | svn co https://github.com/Lienol/openwrt/trunk/package/diy feeds/custom/luci
+rm -rf feeds/custom/luci/.svn
+echo -e "\q" | svn co https://github.com/xiaorouji/openwrt-package/trunk/package feeds/custom/luci
+rm -rf feeds/custom/luci/.svn
 
 rm -Rf feeds/custom/luci/openwrt-chinadns-ng feeds/custom/luci/openwrt-simple-obfs feeds/custom/luci/openwrt-v2ray-plugin feeds/custom/luci/luci-app-cifs feeds/custom/luci/qt5
 rm -Rf tools/upx && svn co https://github.com/coolsnowwolf/lede/trunk/tools/upx tools/upx
@@ -92,7 +94,6 @@ svn co https://github.com/coolsnowwolf/lede/trunk/package/lean/default-settings/
 sed -i '/rpcd_/d' package/*/*/autocore/Makefile
 sed -i "s/'class': 'table'/'class': 'table memory'/g" package/*/*/luci-mod-status/htdocs/luci-static/resources/view/status/include/20_memory.js
 sed -i 's/\[ -e "$FILE" \] && . "$FILE"/[ -e "$FILE" ] \&\& \[ -f "\/bin\/bash" \] \&\& env -i bash "$FILE" || . "$FILE"/g' package/base-files/files/etc/profile
-sed -i 's/var opts = \[\]/var opts = \["-k"\]/g' package/feeds/luci/luci-mod-system/htdocs/luci-static/resources/view/system/flash.js
 sed -i '/depends on PACKAGE_php7-cli || PACKAGE_php7-cgi/d' package/*/*/php7/Makefile
 sed -i 's?/etc/config/AdGuardHome?/etc/config/AdGuardHome\n/etc/config/AdGuardHome/AdGuardHome.yaml?g'  package/*/*/luci-app-adguardhome/Makefile
 sed -i 's/DEPENDS:= strongswan/DEPENDS:=+strongswan/g' package/*/*/strongswan/Makefile
