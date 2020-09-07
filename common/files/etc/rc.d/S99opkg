@@ -8,12 +8,12 @@ if [ $(uci get network.wan.ipv6) == 0 ]; then
 	sysctl -w net.ipv6.conf.all.disable_ipv6=1
 	sysctl -w net.ipv6.conf.lo.disable_ipv6=1
 	sysctl -w net.ipv6.conf.default.disable_ipv6=1
-	echo 1 >/proc/sys/net/ipv6/conf/all/disable_ipv6
+	sysctl -w net.ipv6.conf.all.disable_ipv6=1
 else
 	sysctl -w net.ipv6.conf.all.disable_ipv6=0
 	sysctl -w net.ipv6.conf.lo.disable_ipv6=0
 	sysctl -w net.ipv6.conf.default.disable_ipv6=0
-	echo 0 >/proc/sys/net/ipv6/conf/all/disable_ipv6
+	sysctl -w net.ipv6.conf.all.disable_ipv6=0
 fi
 if [ ! -f /etc/inited ]; then
 	[ uci get dhcp.@dnsmasq[0].noresolv ] && {
@@ -21,11 +21,6 @@ if [ ! -f /etc/inited ]; then
 		uci commit dhcp
 		service dnsmasq reload
 	}
-else
-	find /usr/lib/opkg/info -name "*.control" \( \
-	\( -exec test -f /overlay/upper/{} \; -exec echo {} \; \) -o \
-	\( -exec test -f /rom/{} \; -exec find {} -name "luci-app*" \; \) \
-	\) | sed -e 's?/usr/lib/opkg/info/\(.*control\)$?\1 overlay?g' >/etc/backup/installed_packages.txt
 fi
 count=0
 while :; do
@@ -35,9 +30,14 @@ while :; do
 		if [ "$?" == "0" ]; then
 			opkg update
 			# if [ ! -f /etc/inited ]; then
-
 			cp -r /etc/config /etc/confbak
 
+	[ -f "/etc/inited" ] && {
+	find /usr/lib/opkg/info -name "*.control" \( \
+	\( -exec test -f /overlay/upper/{} \; -exec echo {} \; \) -o \
+	\( -exec test -f /rom/{} \; -exec find {} -name "luci-app*" \; \) \
+	\) | sed -e 's?/usr/lib/opkg/info/\(.*\).control$?\1 overlay?g' >/etc/backup/installed_packages.txt
+	}
 			[ -f "/etc/config/installed-opkg" ] && {
 				for ipk in $(cat /etc/config/installed-opkg); do
 					opkg upgrade --force-overwrite --force-checksum $ipk
@@ -46,6 +46,7 @@ while :; do
 			} || {
 				for ipk in $(cat /etc/backup/installed_packages.txt | grep -oE '.*overlay' | awk '{print $1}'); do
 					opkg upgrade --force-overwrite --force-checksum $ipk
+				[[ $(awk '{print NR}' /etc/backup/installed_packages.txt|tail -n1) -le 5 ]] && exit 0;
 				done
 			}
 			rm /etc/config/*-opkg

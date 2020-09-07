@@ -1,8 +1,8 @@
 
 config smartdns
 	option server_name 'smartdns'
-	option ipv6_server '0'
-	option dualstack_ip_selection '0'
+	option ipv6_server '1'
+	option dualstack_ip_selection '1'
 	option cache_size '5048'
 	option seconddns_port '7053'
 	option seconddns_tcp_server '1'
@@ -22,7 +22,7 @@ config smartdns
 	option prefetch_domain '1'
 	option coredump '1'
 	option redirect 'none'
-	option rr_ttl_min '1800'
+	option rr_ttl_min '3600'
 
 config server
 	option name '腾讯'
@@ -62,6 +62,12 @@ config server
 	option ip 'https://dns.quad9.net/dns-query'
 	option type 'https'
 	option enabled '1'
+	
+config server
+	option name 'OpenDNS'
+	option ip 'https://doh.opendns.com/dns-query'
+	option type 'https'
+	option enabled '1'
 
 config server
 	option type 'tcp'
@@ -79,7 +85,7 @@ config server
 
 config server
 	option name '红鱼'
-	option ip 'https://rubyfish.cn/dns-query'
+	option ip 'https://dns.rubyfish.cn/dns-query'
 	option type 'https'
 	option enabled '1'
 	option blacklist_ip '0'

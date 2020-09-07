@@ -30,8 +30,9 @@ dns:
   - https://cloudflare-dns.com/dns-query
   - https://dns.google/dns-query
   - https://dns.quad9.net/dns-query
-  - https://rubyfish.cn/dns-query
+  - https://dns.rubyfish.cn/dns-query
   - https://dns.twnic.tw/dns-query
+  - https://doh.opendns.com/dns-query
   - tcp://203.198.7.66
   - tcp://168.95.1.1
   - tcp://101.6.6.6:5353
@@ -49,7 +50,7 @@ dns:
   cache_ttl_min: 1800
   cache_ttl_max: 86400
   bogus_nxdomain: []
-  aaaa_disabled: true
+  aaaa_disabled: false
   enable_dnssec: false
   edns_client_subnet: true
   filtering_enabled: true
